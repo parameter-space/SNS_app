@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="post-detail-container">
+
+    <h1 id="postTitle"></h1>
+    <div id="postCategories"></div>
+    <img id="postImage" src="" alt="psot Image" style="display: none;">
+    
+    <div id="postContent"></div>
+    
+    {% if post.user == user %}
+    <div class="post-actions">
+        <button id="editButton" type="button" onclick="goUpdate()">수정</button>
+        <button id="deleteButton" type="button" onclick="goDelete()">삭제</button>
+    </div>
+    {% endif %}
+
+</div>
+<script>
+
+
+/* ** 페이지 로드시 실행 ** */
+$(document).ready(function(){ 
+    pk = window.location.href.split('/').filter(Boolean).pop() 
+    axiosInstance.get(`/api/post/${pk}/`)  
+    .then(function(response) {          
+        let postData = response.data; 
+        console.log(postData);        
+        document.getElementById('postTitle').textContent = postData.title;
+        if(postData.image){           
+            let postImage = document.getElementById('postImage');
+            postImage.src = postData.image;
+            postImage.style.display = 'block';
+        }
+        document.getElementById('postContent').innerHTML = postData.content; 
+        
+    });
+});
+
+/* ** 수정 버튼 클릭시 실행 ** */
+function goUpdate() { 
+    pk = window.location.href.split('/').filter(Boolean).pop() 
+    window.location.href = `/post/update/${pk}/`; 
+}
+
+
+/* ** 삭제 버튼 클릭시 실행 ** */
+function goDelete() {
+    if (!confirm('게시글을 삭제하시겠습니까?')) return;
+    pk = window.location.href.split('/').filter(Boolean).pop()
+    axiosInstance.delete(`/api/blog/${pk}/`) 
+    .then(function(response) {
+        window.location.href = '/';
+    });
+}
+</script>
+
+
+{% endblock %}

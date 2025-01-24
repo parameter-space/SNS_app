@@ -1,0 +1,16 @@
+<div class="header">
+    <div class="logo">
+        <a href="/">
+            <h1>SNS_app</h1>
+        </a>
+    </div>
+    <div class="user-actions">
+        {% if user.is_authenticated %}
+        <a href="/account/create/">Newpost</a>
+        <a href="/post/my/">Mypost</a>
+        <a href="/api-auth/logout/">LogOut</a>
+        {% else %}
+        <a href="/api-auth/login/">Login</a>
+        {% endif %}
+    </div>
+</div>

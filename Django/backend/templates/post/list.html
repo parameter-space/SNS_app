@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="post-list-container">
+    <h1>Post List</h1>
+    {% for post in posts %}
+    <div class="post-list-item">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <div class="post-actions">
+            <a href="/post/{{ post.pk }}/">상세보기</a>
+            <a href="/post/update/{{ post.pk }}/">수정</a>
+            <a href="/post/delete/{{ post.pk }}/">삭제</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}
